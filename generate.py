@@ -74,7 +74,6 @@ def generate(path, transet, testset, net, delta=0.2, max_iter_uni=np.inf, xi=0.2
 
         iter += 1
         v = v_tensor.numpy().transpose([2,1,0]) * std
-        'v:224 224 3 [-10,10]'
 
         with torch.no_grad():
             # Compute fooling_rate
