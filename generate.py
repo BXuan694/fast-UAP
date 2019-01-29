@@ -89,14 +89,14 @@ def generate(path, transet, testset, net, delta=0.2, max_iter_uni=np.inf, xi=0.2
 
             for batch_idx, (inputs, _) in enumerate(test_loader_orig):
                 inputs_orig = inputs.to(device)
-                outputs = net(inputs)
+                outputs = net(inputs_orig)
                 _, predicted = outputs.max(1)
                 est_labels_orig = torch.cat((est_labels_orig, predicted.cpu()))
             torch.cuda.empty_cache()
 
             for batch_idx, (inputs, _) in enumerate(test_loader_pert):
                 inputs_pert = inputs.to(device)
-                outputs = net(inputs)
+                outputs = net(inputs_pert)
                 _, predicted = outputs.max(1)
                 est_labels_pert = torch.cat((est_labels_pert, predicted.cpu()))
             torch.cuda.empty_cache()
