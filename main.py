@@ -15,7 +15,7 @@ parser = argparse.ArgumentParser(description='fast universal adversarial perturb
 parser.add_argument('-p', action="store", dest="PATH", default=root, help='Path of .txt that contains dataset')
 parser.add_argument('-n', action="store", dest="n", default='r', help='Choose a network, "r" for res50 and "v" for vgg16')
 parser.add_argument('-b', action="store", dest="batch_size", default=2, help="Choose batch size. 2, 4 and 8 recommended", type=int)
-parser.add_argument('-m', action="store", dest="xi", default=0.16, help="Magnitude of adversarial perturbation, 0.18 recommended", type=float)
+parser.add_argument('-m', action="store", dest="xi", default=0.2, help="Magnitude of adversarial perturbation, 0.18 recommended", type=float)
 args = parser.parse_args()
 
 if args.batch_size < 1:
