@@ -12,10 +12,10 @@ import torchvision.models as models
 import argparse
 
 parser = argparse.ArgumentParser(description='fast universal adversarial perturbation')
-parser.add_argument('-p', action="store", dest="PATH", default=root, help='Path of .txt that contains dataset')
+parser.add_argument('-p', action="store", dest="PATH", default=root, help='Path of data set')
 parser.add_argument('-n', action="store", dest="n", default='r', help='Choose a network, "r" for res50 and "v" for vgg16')
 parser.add_argument('-b', action="store", dest="batch_size", default=2, help="Choose batch size. 2, 4 and 8 recommended", type=int)
-parser.add_argument('-m', action="store", dest="xi", default=0.2, help="Magnitude of adversarial perturbation, 0.18 recommended", type=float)
+parser.add_argument('-m', action="store", dest="xi", default=0.16, help="Magnitude of adversarial perturbation, 0.15 recommended", type=float)
 args = parser.parse_args()
 
 if args.batch_size < 1:
@@ -71,7 +71,7 @@ else:
     print('   Found a pre-computed universal perturbation at', file_perturbation)
     v = np.load(file_perturbation)
 
-testimg = "./data/test_im2.jpg"
+testimg = "./data/te.jpg"
 print('>> Testing the universal perturbation on', testimg)
 labels = open('./data/labels.txt', 'r').read().split('\n')
 testimgToInput = Image.open(testimg).convert('RGB')
@@ -93,7 +93,7 @@ label_pert = labels[predicted_pert[0]]
 # Show original and perturbed image
 plt.figure()
 plt.subplot(1, 2, 1)
-plt.imshow(testimgToInput, interpolation=None)
+plt.imshow(cut(testimgToInput), interpolation=None)
 plt.title(label_orig)
 
 plt.subplot(1, 2, 2)
