@@ -44,12 +44,6 @@ acc = loadfile['acc']
 net.eval()
 print('   Finished loading ' + name + ' of accuracy ' + str(acc))
 
-print('>> Checking dataset...')
-if not os.path.exists(args.PATH):
-    print("Data set not found. please check!")
-    sys.exit()
-print('   Done.')
-
 print('>> Checking devices...')
 if torch.cuda.is_available():
     device = 'cuda'
@@ -64,6 +58,12 @@ print('>> Loading perturbation...')
 file_perturbation = 'data/universal.npy'
 if os.path.isfile(file_perturbation) == 0:
     print('   No perturbation found, computing...')
+
+    print('>> Checking dataset...')
+    if not os.path.exists(args.PATH):
+        print("Data set not found. please check!")
+        sys.exit()
+    print('   Done.')
     v = generate(args.PATH, 'dataset4u-trn.txt', 'dataset4u-val.txt', net, max_iter_uni=10, delta=0.1, p=np.inf, num_classes=25, overshoot=0.1, max_iter_df=500, xi=args.xi, batch_size=args.batch_size)
     # Saving the universal perturbation
     np.save('./data/universal.npy', v)
@@ -71,7 +71,8 @@ else:
     print('   Found a pre-computed universal perturbation at', file_perturbation)
     v = np.load(file_perturbation)
 
-testimg = "./data/te.jpg"
+
+testimg = "./data/test_im4.jpg"
 print('>> Testing the universal perturbation on', testimg)
 labels = open('./data/labels.txt', 'r').read().split('\n')
 testimgToInput = Image.open(testimg).convert('RGB')

@@ -29,8 +29,8 @@ clip = lambda x: clip_tensor(x, 0, 255)
 
 im1 = transform(Image.open('./data/test_im1.jpeg').convert('RGB'))
 im2 = transform(Image.open('./data/test_im2.jpg').convert('RGB'))
-im3 = transform(Image.open('./data/test_im3.png').convert('RGB'))
-im4 = transform(Image.open('./data/test_im4.png').convert('RGB'))
+im3 = transform(Image.open('./data/test_im3.jpg').convert('RGB'))
+im4 = transform(Image.open('./data/test_im4.jpg').convert('RGB'))
 
 imgs = torch.Tensor(4, 3, 224, 224)
 imgs[0] = im1
@@ -59,22 +59,3 @@ if not os.path.isfile("./data/demo_multiDeepFool.npy"):
         str_label_pert = labels[np.int(label_pert[i])].split(',')[0]
         print("Original label["+str(i)+"] = ", str_label_orig)
         print("Perturbed label["+str(i)+"] = ", str_label_pert)
-else:
-    mdf = np.load("./data/demo_multiDeepFool.npy")
-
-mdf_tensor = torch.from_numpy(mdf)
-img_pert1 = im1 + mdf_tensor
-img_pert2 = im2 + mdf_tensor
-img_pert3 = im3 + mdf_tensor
-img_pert4 = im4 + mdf_tensor
-inputs_pert = torch.cat((img_pert1[None, :], img_pert2[None, :], img_pert3[None, :], img_pert4[None, :])).to(device)
-outputs_pert = net(inputs_pert)
-_, predicted_pert = outputs_pert.max(1)
-
-for i in range(predicted_pert.shape[0]):
-    str_label_orig = labels[np.int(predicted_pert[i])].split(',')[0]
-
-    plt.figure()
-    plt.imshow(tf(inputs_pert[i]))
-    plt.title(str_label_orig)
-    plt.show()
